@@ -31,6 +31,8 @@ namespace TestProject
             {
                 // configures the directory for the binary files that the emulator needs using a relative path based on the application’s current base directory
                 _emulator.SetBinaryFilesDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../Emulator/BinaryFiles/"));
+                // Validate parser before each test
+                TestParserValidity();
             }
             catch (Exception ex)
             {
@@ -48,6 +50,8 @@ namespace TestProject
                 // subscribes the parser to the DataReceived event of the emulator. When data is received, the HandleRawData method of the parser will be invoked
                 _emulator.DataReceived += _parser.HandleRawData;
             }
+            
+            
             catch (Exception ex)
             {
                 LogError($"Error during Setup: {ex.Message}");
@@ -128,6 +132,71 @@ namespace TestProject
                 LogError($"Error during TestFlowPatterns for pattern {pattern}: {ex.Message}");
             }
         }
+        
+        [Test]
+        public void TestParserValidity()
+        {
+            try
+            {
+                // Simulate data collection
+                _emulator.Start(FlowPattern.Constant);
+                System.Threading.Thread.Sleep(10000); // Allow some data to be received
+                _emulator.Stop();
+
+                // Get parsed records
+                _records = _parser.GetRecords();
+
+                // Ensure that records exist
+                Assert.IsNotNull(_records, "Parser returned null records.");
+                Assert.IsNotEmpty(_records, "Parser returned an empty list of records.");
+
+                // Validate each record
+                foreach (var record in _records)
+                {
+                    // Check if short values are within the valid range
+                    Assert.That(record.AmpUp, Is.InRange(short.MinValue, short.MaxValue), "AmpUp is out of range.");
+                    Assert.That(record.AmpDn, Is.InRange(short.MinValue, short.MaxValue), "AmpDn is out of range.");
+                    Assert.That(record.TemperatureE1, Is.InRange(short.MinValue, short.MaxValue), "TemperatureE1 is out of range.");
+
+                    // Check if byte values are within the valid range
+                    Assert.That(record.PwrUp, Is.InRange(byte.MinValue, byte.MaxValue), "PwrUp is out of range.");
+                    Assert.That(record.PwrDn, Is.InRange(byte.MinValue, byte.MaxValue), "PwrDn is out of range.");
+                    Assert.That(record.PwrMin, Is.InRange(byte.MinValue, byte.MaxValue), "PwrMin is out of range.");
+                    Assert.That(record.PwrMax, Is.InRange(byte.MinValue, byte.MaxValue), "PwrMax is out of range.");
+                    Assert.That(record.Fhl, Is.InRange(byte.MinValue, byte.MaxValue), "Fhl is out of range.");
+
+                    // Check if uint values are within the valid range
+                    Assert.That(record.TofUpE12, Is.InRange(uint.MinValue, uint.MaxValue), "TofUpE12 is out of range.");
+                    Assert.That(record.TofDnE12, Is.InRange(uint.MinValue, uint.MaxValue), "TofDnE12 is out of range.");
+                    Assert.That(record.KfE6, Is.InRange(uint.MinValue, uint.MaxValue), "KfE6 is out of range.");
+                    Assert.That(record.SosE6, Is.InRange(uint.MinValue, uint.MaxValue), "SosE6 is out of range.");
+                    Assert.That(record.StatusWm, Is.InRange(uint.MinValue, uint.MaxValue), "StatusWm is out of range.");
+                    Assert.That(record.ArrayLength, Is.InRange(0, ushort.MaxValue), "ArrayLength is out of range.");
+
+                    // Check if int values are within the valid range
+                    Assert.That(record.UcvE6, Is.InRange(int.MinValue, int.MaxValue), "UcvE6 is out of range.");
+                    Assert.That(record.FlowE6, Is.InRange(int.MinValue, int.MaxValue), "FlowE6 is out of range.");
+
+                    // Check if ulong values are within the valid range
+                    Assert.That(record.VisE14, Is.InRange(ulong.MinValue, ulong.MaxValue), "VisE14 is out of range.");
+                    Assert.That(record.ReynE6, Is.InRange(ulong.MinValue, ulong.MaxValue), "ReynE6 is out of range.");
+
+                    // Check if float values are valid
+                    Assert.IsFalse(float.IsNaN(record.FlowCalculated), "FlowCalculated is NaN.");
+                    Assert.IsFalse(float.IsInfinity(record.FlowCalculated), "FlowCalculated is infinite.");
+
+                    // Check if double values are valid
+                    Assert.IsFalse(double.IsNaN(record.Volume), "Volume is NaN.");
+                    Assert.IsFalse(double.IsInfinity(record.Volume), "Volume is infinite.");
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError($"Error during TestParserValidity: {ex.Message}");
+            }
+        }
+
 
         private void TestZeroPatternStats()
         {
