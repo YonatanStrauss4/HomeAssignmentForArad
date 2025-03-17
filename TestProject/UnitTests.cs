@@ -31,8 +31,6 @@ namespace TestProject
             {
                 // configures the directory for the binary files that the emulator needs using a relative path based on the application’s current base directory
                 _emulator.SetBinaryFilesDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../../Emulator/BinaryFiles/"));
-                // Validate parser before each test
-                TestParserValidity();
             }
             catch (Exception ex)
             {
@@ -107,6 +105,9 @@ namespace TestProject
                 // Access and analyze the parsed data
                 _records = _parser.GetRecords();
                 
+                TestParserValidity(_records);
+
+                
                 // Perform statistical analysis based on the pattern
                 if (pattern == FlowPattern.Zero)
                 {
@@ -132,19 +133,11 @@ namespace TestProject
                 LogError($"Error during TestFlowPatterns for pattern {pattern}: {ex.Message}");
             }
         }
-        
-        [Test]
-        public void TestParserValidity()
+
+        public void TestParserValidity(List<FlowRecord> _records)
         {
             try
             {
-                // Simulate data collection
-                _emulator.Start(FlowPattern.Constant);
-                System.Threading.Thread.Sleep(10000); // Allow some data to be received
-                _emulator.Stop();
-
-                // Get parsed records
-                _records = _parser.GetRecords();
 
                 // Ensure that records exist
                 Assert.IsNotNull(_records, "Parser returned null records.");

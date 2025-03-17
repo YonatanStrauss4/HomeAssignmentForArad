@@ -5,8 +5,14 @@
     &lt;TestId&gt;NUnit3x::56378144-7F0E-4F06-B6F2-E19BDD27ADDA::net6.0::TestProject.Tests.TestFlowPatterns&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eedab7a6_002D8df5_002D4b02_002Dab8f_002Da45a945d0419/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestFlowPatterns" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a56fc6fb_002D3da1_002D4247_002D8fdc_002Dbc39a0c614c2/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestParserValidity" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;NUnit3x::56378144-7F0E-4F06-B6F2-E19BDD27ADDA::net6.0::TestProject.Tests.TestFlowPatterns&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eedab7a6_002D8df5_002D4b02_002Dab8f_002Da45a945d0419/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestFlowPatterns" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::56378144-7F0E-4F06-B6F2-E19BDD27ADDA::net6.0::TestProject.Tests.TestFlowPatterns&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::56378144-7F0E-4F06-B6F2-E19BDD27ADDA::net6.0::TestProject.Tests.TestParserValidity&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
